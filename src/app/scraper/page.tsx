@@ -1,13 +1,9 @@
 import JobListData from "@/components/component/JobListData";
 import { Avatar } from "@/components/ui/avatar";
-import { getAllJobs } from "@/hooks/scraper";
 import { User } from "lucide-react";
 
-export const revalidate = 5
 
 const Page = async() => {
-
-  const data = await getAllJobs();
 
   return (
     <div className="dark:bg-gray-950 dark:text-gray-50">
@@ -26,7 +22,7 @@ const Page = async() => {
           </Avatar>
         </div>
       </header>
-     {data && <JobListData data={data} />}
+     <JobListData />
     </div>
   );
 };

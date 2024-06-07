@@ -1,3 +1,4 @@
+"use client"
 import { request } from "@/utils/network/network";
 
 export const getAllJobs = async () => {

@@ -9,18 +9,22 @@ import {
   downloadJobResult,
   downloadJobOutput,
 } from "@/hooks/scraper";
-import { useApiSend } from "@/utils/network/rq";
-import React, { useState } from "react";
+import { useApiGet, useApiSend } from "@/utils/network/rq";
+import React from "react";
 import JobForm from "@/components/common/JobForm";
 import JobList from "@/components/common/JobsList";
-import { Avatar } from "@/components/ui/avatar";
-import { User } from "lucide-react";
-import { revalidatePath } from "next/cache";
-import { useRouter } from "next/navigation";
+import Loading from "@/app/scraper/loading";
 
-const JobListData = ({data}:{data:any}) => {
+const JobListData = () => {
   const { toast } = useToast();
-  const router = useRouter();
+  
+  const { data, isLoading, isError } = useApiGet(["jobs"], getAllJobs, {
+    enabled: true,
+    refetchOnWindowFocus: true,
+    retry: 1
+  });
+
+  
 
   const { mutate } = useApiSend(
     createJob,
@@ -29,7 +33,8 @@ const JobListData = ({data}:{data:any}) => {
         variant: "default",
         title: "Success",
         description: `Job created successfully : ${JSON.stringify(data)}`,
-      });
+        });
+      window.location.reload();
     },
     (data: any) => {
       toast({
@@ -51,8 +56,8 @@ const JobListData = ({data}:{data:any}) => {
         title: "Success",
         description: "Job deleted successfully",
       });
+    window.location.reload();
     });
-    router.refresh()
   };
 
   const handleCheckProgress = async(jobName: string) => {
@@ -86,6 +91,18 @@ const JobListData = ({data}:{data:any}) => {
       link.click();
     });
   };
+
+
+  if (isError)
+    toast({
+      variant: "destructive",
+      title: "Error",
+      description: "Check Your Connection"
+    });
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div >
