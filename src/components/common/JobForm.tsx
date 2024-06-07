@@ -8,34 +8,31 @@ import { Button } from "@/components/ui/button"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Terminal } from "lucide-react";
 
-const JobForm = ({ onCreateJob }: { onCreateJob: (formData: FormData) => void }) => {
+const JobForm = ({ onCreateJob }: { onCreateJob: (formData: FormData) => Promise<void> }) => {
   const [csvFile, setCsvFile] = useState<File | null>(null);
   const [jobName, setJobName] = useState<string>("");
   const [taskCount, setTaskCount] = useState<number>(1);
   const [isLoading, setisLoading] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async() => {
     if (!csvFile) return;
     const formData = new FormData();
     formData.append("csvFile", csvFile);
     formData.append("jobName", jobName);
     formData.append("taskCount", taskCount.toString());
-    onCreateJob(formData);
+    await onCreateJob(formData);
   };
   
-  const handleSubmitForm = (e: React.FormEvent)=>{
-    e.preventDefault()
+  const handleSubmitForm = async ()=>{
     setisLoading(true)
-    setTimeout(()=>{
-      console.log("Waiting to upload")
-    },3000)
+    await handleSubmit();
     setisLoading(false)
   }
 
   return (
     <div className="container mx-auto py-8 px-4 md:px-6">
-            {isLoading && <Loading />}
-    <form onSubmit={handleSubmitForm} className="dark:bg-gray-900 rounded-lg p-6 space-y-4">
+    {isLoading && <Loading />}
+    <form className="dark:bg-gray-900 rounded-lg p-6 space-y-4">
     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
       <div className="space-y-2">
       <Label htmlFor="file">Upload CSV</Label>
@@ -51,7 +48,7 @@ const JobForm = ({ onCreateJob }: { onCreateJob: (formData: FormData) => void })
           <Input id="task-count" placeholder="Enter task count" type="number" value={taskCount} onChange={(e) => setTaskCount(parseInt(e.target.value))} required={true} />
       </div>
           </div>
-      <Button className="w-full" type="submit" disabled={isLoading}>
+      <Button onClick={handleSubmitForm} className="w-full" disabled={isLoading}>
             Create Job
           </Button>
               </form>

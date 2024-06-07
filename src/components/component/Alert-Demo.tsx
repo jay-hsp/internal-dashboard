@@ -10,11 +10,11 @@ import {
   } from "@/components/ui/alert-dialog"
   import { Button } from "@/components/ui/button"
   
-  export function AlertDialogDemo({name,description,Do}:{name:string,description:string,Do:()=>void}) {
+  export function AlertDialogDemo({name,description,Do,disabled}:{name:string,description:string,Do:()=>void,disabled:boolean}) {
     return (
       <AlertDialog>
         <AlertDialogTrigger asChild>
-          <Button variant="outline">{name}</Button>
+          <Button variant="outline" disabled={disabled}>{name}</Button>
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>

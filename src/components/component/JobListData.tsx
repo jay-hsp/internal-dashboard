@@ -37,11 +37,11 @@ const JobListData = ({data}:{data:any}) => {
     }
   );
 
-  const handleCreateJob = (formData: FormData) => {
+  const handleCreateJob = async(formData: FormData) => {
     mutate({ formData: formData } as any);
   };
 
-  const handleDeleteJob = (jobName: string) => {
+  const handleDeleteJob = async(jobName: string) => {
     deleteJob(jobName).then(() => {
       toast({
         variant: "default",
@@ -51,7 +51,7 @@ const JobListData = ({data}:{data:any}) => {
     });
   };
 
-  const handleCheckProgress = (jobName: string) => {
+  const handleCheckProgress = async(jobName: string) => {
     getJobProgress(jobName).then((progress) => {
       toast({
         variant: "default",
@@ -61,7 +61,7 @@ const JobListData = ({data}:{data:any}) => {
     });
   };
 
-  const handleDownloadResult = (jobName: string) => {
+  const handleDownloadResult = async(jobName: string) => {
     downloadJobResult(jobName).then((file) => {
       const url = URL.createObjectURL(new Blob([file]));
       const link = document.createElement("a");
@@ -72,7 +72,7 @@ const JobListData = ({data}:{data:any}) => {
     });
   };
 
-  const handleDownloadOutput = (jobName: string) => {
+  const handleDownloadOutput = async(jobName: string) => {
     downloadJobOutput(jobName).then((file) => {
       const url = URL.createObjectURL(new Blob([file]));
       const link = document.createElement("a");

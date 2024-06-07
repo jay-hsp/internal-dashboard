@@ -26,32 +26,32 @@ const JobList = ({
   onDownloadOutput
 }: {
   jobs: Job[];
-  onDeleteJob: (jobName: string) => void;
-  onCheckProgress: (jobName: string) => void;
-  onDownloadResult: (jobName: string) => void;
-  onDownloadOutput: (jobName: string) => void;
+  onDeleteJob: (jobName: string) => Promise<void>;
+  onCheckProgress: (jobName: string) => Promise<void>;
+  onDownloadResult: (jobName: string) => Promise<void>;
+  onDownloadOutput: (jobName: string) => Promise<void>;
 }) => {
 
   const [isLoading, setisLoading] = useState(false)
 
-const onDeleteJob_ = (jobName: string) =>{
+const onDeleteJob_ = async(jobName: string) =>{
   setisLoading(true)
-  onDeleteJob(jobName)
+  await onDeleteJob(jobName)
   setisLoading(false)
 }
-const onCheckProgress_ = (jobName: string) =>{
+const onCheckProgress_ = async(jobName: string) =>{
   setisLoading(true)
-  onCheckProgress(jobName)
+  await onCheckProgress(jobName)
   setisLoading(false)
 }
-const onDownloadResult_ = (jobName: string) =>{
+const onDownloadResult_ = async(jobName: string) =>{
   setisLoading(true)
-  onDownloadResult(jobName)
+  await onDownloadResult(jobName)
   setisLoading(false)
 }
-const onDownloadOutput_ = (jobName: string) =>{
+const onDownloadOutput_ = async(jobName: string) =>{
   setisLoading(true)
-  onDownloadOutput(jobName)
+  await onDownloadOutput(jobName)
   setisLoading(false)
 }
 
@@ -90,17 +90,17 @@ const onDownloadOutput_ = (jobName: string) =>{
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="flex flex-col">
-                <DropdownMenuItem disabled={job.progress.toFixed(0)!=="100" || isLoading} asChild>
-                  <AlertDialogDemo name="Delete" description="Job will be deleted permanently!!" Do={() => onDeleteJob_(job.job_name)}/>
+                <DropdownMenuItem asChild>
+                  <AlertDialogDemo name="Delete" description="Job will be deleted permanently!!" Do={() => onDeleteJob_(job.job_name)} disabled={false}/>
                   </DropdownMenuItem>
-                <DropdownMenuItem disabled={job.progress.toFixed(0)!=="100" || isLoading} asChild>
-                  <AlertDialogDemo name="Check Progress" description="Click to check the progress!!" Do={() => onCheckProgress_(job.job_name)}/>
+                <DropdownMenuItem asChild>
+                  <AlertDialogDemo name="Check Progress" description="Click to check the progress!!" Do={() => onCheckProgress_(job.job_name)} disabled={false}/>
                   </DropdownMenuItem>
-                <DropdownMenuItem disabled={job.progress.toFixed(0)!=="100" || isLoading} asChild>
-                  <AlertDialogDemo name="Download Result" description="Click to download all the scraped emails!!" Do={() => onDownloadResult_(job.job_name)}/>
+                <DropdownMenuItem asChild>
+                  <AlertDialogDemo name="Download Result" description="Click to download all the scraped emails!!" Do={() => onDownloadResult_(job.job_name)} disabled={job.progress.toFixed(0)!=="100"}/>
                   </DropdownMenuItem>
-                <DropdownMenuItem disabled={job.progress.toFixed(0)!=="100" || isLoading} asChild>
-                  <AlertDialogDemo name="Download Output" description="Click to download all the job folders. Click with caution. It may take some time!!" Do={() => onDownloadOutput_(job.job_name)}/>
+                <DropdownMenuItem asChild>
+                  <AlertDialogDemo name="Download Domains & Emails" description="Click to download all the job folders. Click with caution. It may take some time!!" Do={() => onDownloadOutput_(job.job_name)} disabled={job.progress.toFixed(0)!=="100"}/>
                   </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
