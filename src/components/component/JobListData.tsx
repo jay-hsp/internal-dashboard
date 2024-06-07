@@ -16,9 +16,11 @@ import JobList from "@/components/common/JobsList";
 import { Avatar } from "@/components/ui/avatar";
 import { User } from "lucide-react";
 import { revalidatePath } from "next/cache";
+import { useRouter } from "next/navigation";
 
 const JobListData = ({data}:{data:any}) => {
   const { toast } = useToast();
+  const router = useRouter();
 
   const { mutate } = useApiSend(
     createJob,
@@ -50,7 +52,7 @@ const JobListData = ({data}:{data:any}) => {
         description: "Job deleted successfully",
       });
     });
-    revalidatePath('/scraper')
+    router.refresh()
   };
 
   const handleCheckProgress = async(jobName: string) => {
