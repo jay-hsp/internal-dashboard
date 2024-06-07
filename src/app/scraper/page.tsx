@@ -3,6 +3,8 @@ import { Avatar } from "@/components/ui/avatar";
 import { getAllJobs } from "@/hooks/scraper";
 import { User } from "lucide-react";
 
+export const revalidate = 5
+
 const Page = async() => {
 
   const data = await getAllJobs();
