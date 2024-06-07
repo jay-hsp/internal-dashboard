@@ -23,7 +23,7 @@ export const createJob = async (data: any) => {
 export const deleteJob = async (jobName: string) => {
     const response = await request({
         method: "DELETE",
-        url: `/delete_job_/${jobName}`,
+        url: `/delete_job/${jobName}`,
     })
     return response;
 };
@@ -31,7 +31,7 @@ export const deleteJob = async (jobName: string) => {
 export const getJobProgress = async (jobName: string) => {
     const response = await request({
         method: "GET",
-        url: `/get_progress_/${jobName}`,
+        url: `/get_progress/${jobName}`,
     })
     return response.progress;
 };
@@ -39,7 +39,7 @@ export const getJobProgress = async (jobName: string) => {
 export const downloadJobResult = async (jobName: string) => {
     const response = await request({
         method: "GET",
-        url: `/download_result_/${jobName}`,
+        url: `/download_result/${jobName}`,
         responseType: 'blob'
     })
     return response;
@@ -48,7 +48,7 @@ export const downloadJobResult = async (jobName: string) => {
 export const downloadJobOutput = async (jobName: string) => {
     const response = await request({
         method: "GET",
-        url: `/download_output_folder_/${jobName}`,
+        url: `/download_output_folder/${jobName}`,
         responseType: 'blob'
     })
     return response;
