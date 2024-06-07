@@ -15,6 +15,7 @@ import JobForm from "@/components/common/JobForm";
 import JobList from "@/components/common/JobsList";
 import { Avatar } from "@/components/ui/avatar";
 import { User } from "lucide-react";
+import { revalidatePath } from "next/cache";
 
 const JobListData = ({data}:{data:any}) => {
   const { toast } = useToast();
@@ -49,6 +50,7 @@ const JobListData = ({data}:{data:any}) => {
         description: "Job deleted successfully",
       });
     });
+    revalidatePath('/scraper')
   };
 
   const handleCheckProgress = async(jobName: string) => {
