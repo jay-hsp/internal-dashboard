@@ -10,6 +10,7 @@ export const getAllJobs = async () => {
 };
 
 export const createJob = async (data: any) => {
+    // console.log("calling createJob")
     console.log(data)
     return await request({
         method: "POST",

@@ -3,13 +3,12 @@
 import { useToast } from "@/components/ui/use-toast";
 import {
   getAllJobs,
-  createJob,
   deleteJob,
   getJobProgress,
   downloadJobResult,
   downloadJobOutput,
 } from "@/hooks/scraper";
-import { useApiGet, useApiSend } from "@/utils/network/rq";
+import { useApiGet } from "@/utils/network/rq";
 import React from "react";
 import JobForm from "@/components/common/JobForm";
 import JobList from "@/components/common/JobsList";
@@ -24,30 +23,7 @@ const JobListData = () => {
     retry: 1
   });
 
-  
 
-  const { mutate } = useApiSend(
-    createJob,
-    (data: any) => {
-      toast({
-        variant: "default",
-        title: "Success",
-        description: `Job created successfully : ${JSON.stringify(data)}`,
-        });
-      window.location.reload();
-    },
-    (data: any) => {
-      toast({
-        variant: "destructive",
-        title: `${data.error}`,
-        description: "Job creation failed",
-      });
-    }
-  );
-
-  const handleCreateJob = async(formData: FormData) => {
-    mutate({ formData: formData } as any);
-  };
 
   const handleDeleteJob = async(jobName: string) => {
     deleteJob(jobName).then(() => {
@@ -106,7 +82,7 @@ const JobListData = () => {
 
   return (
     <div >
-      <JobForm onCreateJob={handleCreateJob} />
+      <JobForm/>
       <JobList
         jobs={data as any}
         onDeleteJob={handleDeleteJob}
